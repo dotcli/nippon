@@ -4,12 +4,15 @@ var createOrbitViewer = require('three-orbit-viewer')(THREE)
 var LongWorm = require('./lib/longWorm');
 var randomColor = require('randomcolor');
 
+import chroma from 'chroma-js'
 import nipponColors from './lib/nipponColors'
 
 const BOUND_SIZE = 50;
 const WORM_COUNT = 5
 
-document.body.style.background = nipponColors.random().value
+const colors = nipponColors.similar(WORM_COUNT + 2, '#FFFFFF')
+document.body.style.background = colors[1]
+const wormColors = colors.slice(2)
 
 var app = createOrbitViewer({
     clearColor: 0x000000,
@@ -44,7 +47,7 @@ for (var i = 0; i < WORM_COUNT; i++) {
   );
   worm.scale.set(0.5,0.5,0.5);
   // worm.setColor(randomColor({hue: 'monochrome', luminosity: 'dark'}));
-  worm.setColor(nipponColors.random().value);
+  worm.setColor( wormColors[i] );
   app.scene.add(worm);
   arrWorm.push(worm);
 }
