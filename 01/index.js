@@ -7,17 +7,20 @@ var randomColor = require('randomcolor');
 import chroma from 'chroma-js'
 import nipponColors from './lib/nipponColors'
 
-const BOUND_SIZE = 50;
-const WORM_COUNT = 5
+const BOUND_SIZE = 50
+const WORM_COUNT = 10
 
-const colors = nipponColors.similar(WORM_COUNT + 2, '#FFFFFF')
-document.body.style.background = colors[1]
-const wormColors = colors.slice(2)
+const bgColor = nipponColors.similar(2, '#fedfe1')[0]
+// const fgColor = nipponColors.contrast(bgColor)
+// const wormColors = nipponColors.similar(WORM_COUNT, fgColor)
+const wormColors = nipponColors.similar(WORM_COUNT + 0, '#00ffff').slice(0)
+document.body.style.background = bgColor
 
 var app = createOrbitViewer({
     clearColor: 0x000000,
     clearAlpha: 1,
-    fov: 65,
+    // fov: 65,
+    fov: 80,
     position: new THREE.Vector3(0, 0, 70),
     contextAttributes: {
       preserveDrawingBuffer: true,
@@ -58,7 +61,7 @@ for (var i = 0; i < WORM_COUNT; i++) {
 //   new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff })
 // ));
 
-let rot = 0;
+let time = 0
 app.on('tick', function(dt) {
   //.. handle pre-render updates    
   arrWorm.forEach((worm)=>{
@@ -68,13 +71,16 @@ app.on('tick', function(dt) {
     worm.update();
   });
   
+  time += dt / 1000;
+  
   // slowly move camera around center
-  rot += dt / 1000;
-  var rotten = new THREE.Vector3(0, 0, 70);
-  rotten.applyAxisAngle(
-    new THREE.Vector3(0, 1, 0), 
-    rot / 2,
-  );
-  app.camera.position.copy(rotten);
-  app.camera.lookAt(new THREE.Vector3());
+  // var rotten = new THREE.Vector3(0, 0, 70);
+  // rotten.applyAxisAngle(
+  //   new THREE.Vector3(0, 1, 0),
+  //   time * 0.5,
+  // );
+  // app.camera.position.copy(rotten);
+  // app.camera.lookAt(new THREE.Vector3());
+  
+  app.camera.rotation.z = time * 0.5
 })

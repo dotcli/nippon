@@ -13,7 +13,7 @@ class LongWorm extends THREE.Group {
     this.arrSeg = [];
     for (var i = 0; i < SEGMENTS; i++) {
       var geo = new THREE.SphereGeometry(1, 1, 1);
-      var mat = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xff0000 });
+      var mat = new THREE.MeshBasicMaterial({ wireframe: false, color: 0xff0000 });
       var seg = new THREE.Mesh(geo, mat);
       seg.position.set(x, y, z);
       this.arrSeg.push(seg);
